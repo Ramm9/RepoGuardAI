@@ -1,0 +1,39 @@
+# Runtime dependencies shared by every environment.
+#
+# Pins are exact. A range here means a fresh deploy can differ from a tested one,
+# and "it worked last week" is not a property you want a risk-scoring service to
+# have. Upgrades are deliberate edits to this file.
+#
+# Version note: every pin marked [verified] is the version actually importable in
+# the development environment this was built against. Pins marked [target] could
+# not be installed here (PyPI is unreachable from the build sandbox) and are the
+# intended versions, recorded so the gap is visible rather than implied.
+
+# -- Web ---------------------------------------------------------------------
+Django==6.0.2                    # [verified]
+djangorestframework==3.16.1      # [verified]
+django-cors-headers==4.9.0       # [verified]
+
+# -- Database ----------------------------------------------------------------
+psycopg2-binary==2.9.11          # [verified] PostgreSQL 16 driver
+
+# -- Async work --------------------------------------------------------------
+celery==5.4.0                    # [target] not installable in the build sandbox
+redis==5.2.1                     # [target] broker, result backend, cache, throttles
+
+# -- GitHub integration ------------------------------------------------------
+PyJWT==2.10.1                    # [verified] RS256 App JWT
+cryptography==46.0.3             # [verified] RS256 signing + Fernet token encryption
+requests==2.32.5                 # [verified] GitHub REST client
+
+# -- Analysis ----------------------------------------------------------------
+python-dateutil==2.9.0.post0     # [verified] commit timestamp normalisation
+
+# -- ML ----------------------------------------------------------------------
+# Inference runs in-process (docs/ml-pipeline.md §6), so these are runtime
+# dependencies of the web process, not just of a training job.
+scikit-learn==1.7.2              # [verified]
+pandas==2.3.3                    # [verified]
+numpy==2.3.5                     # [verified]
+scipy==1.16.3                    # [verified]
+joblib==1.5.2                    # [verified] model artifact serialisation

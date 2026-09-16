@@ -1,0 +1,44 @@
+# Secrets. Never committed - see docs/security.md §2.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+.Python
+build/
+dist/
+*.egg-info/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+/staticfiles/
+/media/
+*.log
+
+# ML artifacts. Models are content-addressed and distributed through the
+# registry (docs/ml-pipeline.md §8), not through git.
+/models/
+*.joblib
+*.pkl
+
+# Tests / tooling
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

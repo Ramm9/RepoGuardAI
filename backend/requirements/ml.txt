@@ -1,0 +1,21 @@
+# Optional ML stack - installed when the model ladder reaches these rungs.
+#
+# docs/ml-pipeline.md §2 defines the ladder:
+#
+#   heuristic baseline -> LogisticRegression -> RandomForest -> gradient boosting
+#
+# The first three rungs need nothing beyond requirements/base.txt. The fourth is
+# where this file starts to matter.
+#
+# Substitute in use: sklearn.ensemble.HistGradientBoostingClassifier stands in
+# for XGBoost. It is in requirements/base.txt already, is a comparable histogram
+# gradient-boosting implementation, and handles NaN natively - which matters more
+# here than raw accuracy, because a genuinely unknown feature (coverage, for
+# instance) must stay unknown rather than be imputed to a number the model then
+# treats as measured. Promotion from the substitute to XGBoost is a model-registry
+# change, not an API change.
+
+-r base.txt
+
+xgboost==2.1.3                   # [target] not installable in the build sandbox
+shap==0.46.0                     # [target] per-prediction attribution, docs/ml-pipeline.md §7

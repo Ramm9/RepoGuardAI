@@ -1,0 +1,53 @@
+[project]
+name = "repoguard-backend"
+version = "0.1.0"
+description = "RepoGuard - predictive software reliability platform (backend)"
+requires-python = ">=3.12"
+
+# Dependencies are declared in requirements/*.txt, not here. The split by
+# environment (base / local / production / ml) matters more than PEP 621
+# tidiness: the production image must not contain pytest, and the ML extras must
+# be installable independently of the web tier.
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = [".venv", "migrations", "staticfiles"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # import order
+    "UP",       # pyupgrade
+    "B",        # bugbear
+    "C4",       # comprehensions
+    "DJ",       # flake8-django
+    "S",        # bandit - security
+    "T20",      # no print()
+    "RUF",
+]
+ignore = [
+    "S101",    # assert is fine in tests
+    "RUF012",  # Django class attrs are not ClassVar-annotated by convention
+    "B008",    # DRF/Django idioms call in defaults
+]
+
+[tool.ruff.lint.per-file-ignores]
+# F405 ("may be undefined from star imports") fires on every use, so it is
+# suppressed here. F403 is deliberately NOT in this list: each star-import site
+# carries its own `# noqa: F403`, which keeps the exception visible in the file
+# rather than only in this table.
+"config/settings/*.py" = ["F405"]
+# Fake by construction - see the module docstring. These are deterministic test
+# fixtures, not credentials; nothing here authenticates against anything.
+"config/settings/test.py" = ["S105"]
+"*/tests/*.py" = ["S105", "S106"]
+"*/migrations/*.py" = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["common", "config"]
+
+[tool.coverage.run]
+source = ["."]
+omit = ["*/migrations/*", "*/tests/*", "config/*", "manage.py", ".venv/*"]

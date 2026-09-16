@@ -1,0 +1,6 @@
+# Production-only dependencies.
+
+-r base.txt
+
+gunicorn==25.1.0                 # [verified] WSGI server, see docs/deployment.md §2
+whitenoise==6.12.0               # [verified] static files for the Django admin only

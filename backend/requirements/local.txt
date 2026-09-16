@@ -1,0 +1,21 @@
+# Development and test dependencies.
+
+-r base.txt
+
+# -- Tests -------------------------------------------------------------------
+# Django's own test runner is what actually runs here:
+#     python manage.py test --settings=config.settings.test
+# pytest-django is the intended runner but is not installable in the build
+# sandbox, so every test in this repository is written as a plain
+# django.test.TestCase / APITestCase and runs under either. That constraint is
+# deliberate: the suite must not become pytest-fixture-shaped and then be
+# unrunnable when pytest-django is missing.
+pytest==8.4.2                    # [verified]
+pytest-django==4.9.0             # [target] not installable in the build sandbox
+pytest-cov==6.0.0                # [target]
+
+# -- Lint --------------------------------------------------------------------
+ruff==0.12.0                     # [verified]
+
+# -- Convenience -------------------------------------------------------------
+ipython==8.30.0                  # [target] shell_plus-style REPL
